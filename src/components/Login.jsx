@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -8,6 +9,9 @@ const Login = () => {
         <Title>LOGIN</Title>
         <Input type="text" placeholder="아이디" />
         <Input type="password" placeholder="비밀번호" />
+        <div>
+          <Link to={"/register"}>"회원가입"</Link>
+        </div>
       </Form>
     </Container>
   );
