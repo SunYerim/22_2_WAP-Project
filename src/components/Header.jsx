@@ -6,12 +6,8 @@ const Header = () => {
     <div>
       <div>
         <Link to={"/"}>Home Page</Link>
-      </div>
-      <div>
         <Link to={"/login"}>Login Page</Link>
-      </div>
-      <div>
-        <Link to={"/register"}>Register Page</Link>
+        <Link to={"/myaccount"}>MyAccount Page</Link>
       </div>
     </div>
   );
