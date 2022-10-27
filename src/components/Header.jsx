@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+//전체페이지 적용 header
 const Header = () => {
   return (
     <div>

@@ -1,15 +1,4 @@
-import React from "react";
 import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
-
-const Register = () => {
-  return (
-    <Container>
-      <Input type="text" placeholder="nickname" />
-      <Input type="text" placeholder="status" />
-    </Container>
-  );
-};
 
 const Container = styled.div`
   width: 512px;
@@ -40,4 +29,9 @@ const Input = styled.input`
   }
 `;
 
-export default Register;
+const S = {
+  Input,
+  Container,
+};
+
+export default S;
