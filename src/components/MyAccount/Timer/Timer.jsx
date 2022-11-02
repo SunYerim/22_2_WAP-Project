@@ -4,13 +4,15 @@ import { faClock } from "@fortawesome/free-regular-svg-icons";
 import "./Timer.css";
 
 const element = <FontAwesomeIcon icon={faClock} />;
+
 const Timer = () => {
   const [timer, setTimer] = useState(0);
+
   const [isActive, setIsActive] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const countRef = useRef(null);
 
-  const handleStart = () => {
+  const TimeStart = () => {
     setIsActive(true);
     setIsPaused(true);
     countRef.current = setInterval(() => {
@@ -18,19 +20,19 @@ const Timer = () => {
     }, 1000);
   };
 
-  const handlePause = () => {
+  const TimePause = () => {
     clearInterval(countRef.current);
     setIsPaused(false);
   };
 
-  const handleResume = () => {
+  const TimeResume = () => {
     setIsPaused(true);
     countRef.current = setInterval(() => {
       setTimer((timer) => timer + 1);
     }, 1000);
   };
 
-  const handleReset = () => {
+  const TimeReset = () => {
     clearInterval(countRef.current);
     setIsActive(false);
     setIsPaused(false);
@@ -42,7 +44,6 @@ const Timer = () => {
     const minutes = `${Math.floor(timer / 60)}`;
     const getMinutes = `0${minutes % 60}`.slice(-2);
     const getHours = `0${Math.floor(timer / 3600)}`.slice(-2);
-
     return `${getHours} : ${getMinutes} : ${getSeconds}`;
   };
 
@@ -53,13 +54,13 @@ const Timer = () => {
         <p>{formatTime()}</p>
         <div className="buttons">
           {!isActive && !isPaused ? (
-            <button onClick={handleStart}>Start</button>
+            <button onClick={TimeStart}>Start</button>
           ) : isPaused ? (
-            <button onClick={handlePause}>Pause</button>
+            <button onClick={TimePause}>Pause</button>
           ) : (
-            <button onClick={handleResume}>Resume</button>
+            <button onClick={TimeResume}>Resume</button>
           )}
-          <button onClick={handleReset} disabled={!isActive}>
+          <button onClick={TimeReset} disabled={!isActive}>
             Reset
           </button>
         </div>
