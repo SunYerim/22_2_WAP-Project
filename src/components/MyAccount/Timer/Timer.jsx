@@ -54,19 +54,23 @@ const Timer = () => {
         <p>{formatTime()}</p>
         <div className="buttons">
           {!isActive && !isPaused ? (
-            <button className="timer" onClick={TimeStart}>
+            <button className="timerButton" onClick={TimeStart}>
               Start
             </button>
           ) : isPaused ? (
-            <button className="timer" onClick={TimePause}>
+            <button className="timerButton" onClick={TimePause}>
               Pause
             </button>
           ) : (
-            <button className="timer" onClick={TimeResume}>
+            <button className="timerButton" onClick={TimeResume}>
               Resume
             </button>
           )}
-          <button className="timer" onClick={TimeReset} disabled={!isActive}>
+          <button
+            className="timerButton"
+            onClick={TimeReset}
+            disabled={!isActive}
+          >
             Reset
           </button>
         </div>
