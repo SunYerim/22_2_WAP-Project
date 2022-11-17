@@ -20,6 +20,7 @@ const Login = () => {
   //로그인
   const onSubmit = (event) => {
     event.preventDefault();
+    return alert("로그인 성공");
   };
 
   return (
