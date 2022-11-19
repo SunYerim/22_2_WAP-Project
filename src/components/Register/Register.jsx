@@ -1,141 +1,111 @@
 import React, { useState, useRouter, useCallback } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {
+  useNavigate,
+  BrowserRouter as router,
+  Route,
+  Link,
+} from "react-router-dom";
 import S from "./styled";
 import axios from "axios";
 
 const Register = () => {
-  // 닉네임, 아이디, 비밀번호, 비밀번호 확인
+  // 닉네임, 아이디 확인
   const [nickname, setNickname] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // 오류메시지 상태저장
-  const [nicknameMessage, setNicknameMessage] = useState("");
-  const [idMessage, setIdMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
-
+  /*
   // 유효성 검사
   const [isNickname, setIsNickname] = useState(false);
   const [isId, setIsId] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
-  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
-  const router = useRouter();
+  */
+
+  const onNickNameHandler = (event) => {
+    setNickname(event.currentTarget.value);
+  };
+
+  const onIdHandler = (event) => {
+    setId(event.currentTarget.value);
+  };
+
+  const onPasswordHandler = (event) => {
+    setPassword(event.currentTarget.value);
+  };
+
+  const onPasswordCheckHandler = (event) => {
+    setConfirmPassword(event.currentTarget.value);
+  };
+
+  // password 일치여부 확인
+  const onCheck = (event) => {
+    event.preventDefault();
+    if (password !== confirmPassword) {
+      return alert("비밀번호 확인을 다시 한 번 해주십시오.");
+    } else if (password === confirmPassword) {
+      return alert("비밀번호가 일치합니다. 회원가입을 진행해주세요.");
+    }
+  };
+
+  // 회원가입 후 로그인 페이지 이동
+  const navigate = useNavigate();
+  const navigateToLogin = () => {
+    navigate("/Login");
+    return alert("Register Success !!");
+  };
 
   const onSubmit = useCallback(
     async (e) => {
-      e.preventDefault();
+      e.preventDerault();
       try {
         await axios
-          .post(
-            //REGISTER_USERS_URL,
-            {
-              username: nickname,
-              password: password,
-              id: id,
-            }
-          )
+          .post({
+            /*Register_users_url,*/
+            nickname: nickname,
+            id: id,
+          })
           .then((res) => {
             console.log("response:", res);
             if (res.status === 201) {
-              router.push("/register/profile_start");
+              router.push("/sign_up/profile_start");
             }
           });
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
       }
     },
-    [id, nickname, password, router]
-  );
-
-  // nickname
-  const onChangeNickName = useCallback((e) => {
-    setNickname(e.target.value);
-    setNicknameMessage("올바른 닉네임 형식입니다 :)");
-    setIsNickname(true);
-  }, []);
-
-  // id
-  const onChangeId = useCallback((e) => {
-    setId(e.target.value);
-    if (e.target.value.length < 5) {
-      setIdMessage("5글자 이상으로 입력해주세요.");
-      setIsId(false);
-    } else {
-      setIdMessage("올바른 id 형식입니다! :)");
-      setIsId(true);
-    }
-  }, []);
-
-  // password
-  const onChangePassword = useCallback((e) => {
-    const passwordRegex =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    const passwordCurrent = e.target.value;
-    setPassword(passwordCurrent);
-
-    if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage(
-        "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요."
-      );
-      setIsPassword(false);
-    } else {
-      setPasswordMessage("안전한 비밀번호입니다.");
-      setIsPassword(true);
-    }
-  }, []);
-
-  // password check
-  const onChangePasswordConfirm = useCallback(
-    (e) => {
-      const passwordConfirmCurrent = e.target.value;
-      setConfirmPassword(passwordConfirmCurrent);
-      if (password === passwordConfirmCurrent) {
-        setPasswordConfirmMessage("비밀번호가 일치합니다 : )");
-        setIsPasswordConfirm(true);
-      } else {
-        setPasswordConfirmMessage(
-          "비밀번호가 틀립니다. 다시 한 번 확인해주세요."
-        );
-        setIsPasswordConfirm(false);
-      }
-    },
-    [password]
+    [id, nickname]
   );
 
   return (
-    <>
-      <S.Container onSubmit={onSubmit}>
-        <S.Input
-          type="text"
-          value={nickname}
-          onChange={onChangeNickName}
-          placeholder="nickname"
-        />
-        <S.Input
-          type="text"
-          placeholder="id"
-          value={id}
-          onChange={onChangeId}
-        />
-        <S.Input
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={onChangePassword}
-        />
-        <S.Input
-          type="password"
-          placeholder="check password one more"
-          value={confirmPassword}
-          onChange={onChangePasswordConfirm}
-        />
-        <S.SubmitButton type="submit" onChange={onSubmit}>
-          "Register!"
-        </S.SubmitButton>
-      </S.Container>
-    </>
+    <S.Container>
+      <S.Title>Register Page</S.Title>
+      <S.Input
+        type="text"
+        value={nickname}
+        onChange={onNickNameHandler}
+        placeholder="nickname"
+      />
+      <S.Input type="text" placeholder="ID" value={id} onChange={onIdHandler} />
+      <S.Input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={onPasswordHandler}
+      />
+
+      <S.Input
+        type="password"
+        placeholder="check password one more"
+        value={confirmPassword}
+        onChange={onPasswordCheckHandler}
+      />
+      <S.PasswordCheck onClick={onCheck}>비밀번호 재확인</S.PasswordCheck>
+
+      <S.SubmitButton type="submit" onClick={navigateToLogin}>
+        "Register!"
+      </S.SubmitButton>
+    </S.Container>
   );
 };
 
